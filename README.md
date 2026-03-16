@@ -86,66 +86,66 @@ A comprehensive DevOps data collection pipeline that aggregates, normalizes, and
 
 ### 1. Environment Setup
 
-    - **Tool:** Apache DevLake
-    - **Goal:** Deploy DevLake backend, database, and dashboards
-    - **Method:** Use Docker to run DevLake components
+- **Tool:** Apache DevLake
+- **Goal:** Deploy DevLake backend, database, and dashboards
+- **Method:** Use Docker to run DevLake components
 
 ### 2. Pipeline Orchestration
 
-    - **Tool:** Apache Airflow
-    - **Goal:** Schedule and orchestrate data collection
-    - **Method:** Install Airflow, create DAGs for tasks
+- **Tool:** Apache Airflow
+- **Goal:** Schedule and orchestrate data collection
+- **Method:** Install Airflow, create DAGs for tasks
 
 ### 3. Git Data Collection
-
-    - **Tool:** GitHub APIs
-    - **Goal:** Collect commits, PRs, and issues
-    - **Method:** Airflow tasks call APIs with authentication
-
-### 4. CI/CD Data Collection
-
-    - **Tool:** GitHub Actions
-    - **Goal:** Collect build and deployment status
-    - **Method:** Airflow tasks call CI/CD APIs
+            
+- **Tool:** GitHub APIs
+- **Goal:** Collect commits, PRs, and issues
+- **Method:** Airflow tasks call APIs with authentication
 
 ### 4. CI/CD Data Collection
 
-    - **Tool:** GitHub Actions
-    - **Goal:** Collect build and deployment status
-    - **Method:** Airflow tasks call CI/CD APIs
+- **Tool:** GitHub Actions
+- **Goal:** Collect build and deployment status
+- **Method:** Airflow tasks call CI/CD APIs
+
+### 4. CI/CD Data Collection
+
+- **Tool:** GitHub Actions
+- **Goal:** Collect build and deployment status
+- **Method:** Airflow tasks call CI/CD APIs
 
 ### 5. Jira / Incident Collection
 
-    - **Tool:** GitHub Projects
-    - **Goal:** Collect issues, incident data
-    - **Method:** Airflow tasks call APIs
+- **Tool:** GitHub Projects
+- **Goal:** Collect issues, incident data
+- **Method:** Airflow tasks call APIs
 
 ### 6. Cloud Log Collection
 
-    - **Tool:** Google Cloud Logging → BigQuery
-    - **Goal:** Efficiently store large log datasets
-    - **Method:** Export logs to BigQuery, Airflow reads them
+- **Tool:** Google Cloud Logging → BigQuery
+- **Goal:** Efficiently store large log datasets
+- **Method:** Export logs to BigQuery, Airflow reads them
 
 ### 7. Data Normalization
 
-    - **Tool:** Apache DevLake
-    - **Goal:** Normalize data to DevLake schema
-    - **Method:** Use DevLake plugins and converters
+- **Tool:** Apache DevLake
+- **Goal:** Normalize data to DevLake schema
+- **Method:** Use DevLake plugins and converters
 
 ### 8. Load into DevLake
 
-    - **Tool:** DevLake Database
-    - **Goal:** Store normalized data in the database
+- **Tool:** DevLake Database
+- **Goal:** Store normalized data in the database
 
 ### 9. Pipeline Metadata
 
-    - **Tool:** PlatformNex API
-    - **Goal:** Track pipeline execution status
+- **Tool:** PlatformNex API
+- **Goal:** Track pipeline execution status
 
 ### 10. Failure Handling & Alerts
 
-    - **Tool:** Slack, Teams, Email
-    - **Goal:** Python function to send notifications on task failure
+- **Tool:** Slack, Teams, Email
+- **Goal:** Python function to send notifications on task failure
 
 ## Technologies
 
