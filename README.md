@@ -19,10 +19,56 @@ A comprehensive DevOps data collection pipeline that aggregates, normalizes, and
 ---
 
 ## Architecture
+```text
+
+            +-------------------------------------+
+            |  PlatformNex                        |  
+            +------------------+------------------+
+                               |
+                               v
+            +-------------------------------------+
+            | Trigger Airflow DAG                 |  
+            +------------------+------------------+
+                               |
+                               v
+            +-------------------------------------+
+            | Airflow Tasks                       |
+            |  • Collect Git Data                 |
+            |  • Collect CI/CD Data               |
+            |  • Collect Jira/ServiceNow Data     |
+            |  • Collect Cloud Logs               |  
+            +------------------+------------------+
+                               |
+                               v
+            +-------------------------------------+
+            | BigQuery (Logs)                     |  
+            +------------------+------------------+
+                               |
+                               v
+            +-------------------------------------+
+            | Normalize Data                      |  
+            +------------------+------------------+
+                               |
+                               v
+            +-------------------------------------+
+            | Load into DevLake                   |  
+            +------------------+------------------+
+                               |
+                               v
+            +-------------------------------------+
+            | Update PlatformNex metadata         |  
+            +------------------+------------------+
+                               |
+                               v
+            +-------------------------------------+
+            | Failure Notification                |  
+            +------------------+------------------+
+```
 
 ---
 
 ## Main Components
+```text
 
 | Component            | Technology                  | Concepts / Features                                  |
 | -------------------- | --------------------------- | ---------------------------------------------------- |
@@ -33,6 +79,8 @@ A comprehensive DevOps data collection pipeline that aggregates, normalizes, and
 | Storage              | DevLake DB                  | Data Normalization, Unified DevOps Schema            |
 | Status Reporting     | PlatformNex                 | Airflow Failure Handling, Pipeline Metadata          |
 | Alerting             | Slack / Email / Teams       | Failure Notifications                                |
+```
+
 
 ## Build Plan
 
