@@ -8,6 +8,7 @@ A comprehensive DevOps data collection pipeline that aggregates, normalizes, and
 
 - [Architecture](#architecture)
 - [Main Components](#main-components)
+- [File Structure](#file-structure)
 - [Build Plan](#build-plan)
 - [Technologies](#technologies)
 - [Setup Instructions](#setup-instructions)
