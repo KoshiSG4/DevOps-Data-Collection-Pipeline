@@ -266,3 +266,7 @@ airflow webserver
 - Task failures trigger Slack or Email alerts.
 - Airflow provides detailed logs for debugging and auditing.
 - PlatformNex tracks pipeline execution success/failure for reporting.
+
+## Contributors
+
+**Koshila Gunasinghe** | **Aathif Azeez**
