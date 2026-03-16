@@ -8,6 +8,7 @@ A comprehensive DevOps data collection pipeline that aggregates, normalizes, and
 
 - [Architecture](#architecture)
 - [Main Components](#main-components)
+- [File Structure](#file-structure)
 - [Build Plan](#build-plan)
 - [Technologies](#technologies)
 - [Setup Instructions](#setup-instructions)
@@ -19,10 +20,56 @@ A comprehensive DevOps data collection pipeline that aggregates, normalizes, and
 ---
 
 ## Architecture
+```text
+
+            +-------------------------------------+
+            |  PlatformNex                        |  
+            +------------------+------------------+
+                               |
+                               v
+            +-------------------------------------+
+            | Trigger Airflow DAG                 |  
+            +------------------+------------------+
+                               |
+                               v
+            +-------------------------------------+
+            | Airflow Tasks                       |
+            |  • Collect Git Data                 |
+            |  • Collect CI/CD Data               |
+            |  • Collect Jira/ServiceNow Data     |
+            |  • Collect Cloud Logs               |  
+            +------------------+------------------+
+                               |
+                               v
+            +-------------------------------------+
+            | BigQuery (Logs)                     |  
+            +------------------+------------------+
+                               |
+                               v
+            +-------------------------------------+
+            | Normalize Data                      |  
+            +------------------+------------------+
+                               |
+                               v
+            +-------------------------------------+
+            | Load into DevLake                   |  
+            +------------------+------------------+
+                               |
+                               v
+            +-------------------------------------+
+            | Update PlatformNex metadata         |  
+            +------------------+------------------+
+                               |
+                               v
+            +-------------------------------------+
+            | Failure Notification                |  
+            +------------------+------------------+
+```
 
 ---
 
 ## Main Components
+```text
 
 | Component            | Technology                  | Concepts / Features                                  |
 | -------------------- | --------------------------- | ---------------------------------------------------- |
@@ -33,71 +80,124 @@ A comprehensive DevOps data collection pipeline that aggregates, normalizes, and
 | Storage              | DevLake DB                  | Data Normalization, Unified DevOps Schema            |
 | Status Reporting     | PlatformNex                 | Airflow Failure Handling, Pipeline Metadata          |
 | Alerting             | Slack / Email / Teams       | Failure Notifications                                |
+```
+
+## File Structure
+```text
+
+            devops-data-pipeline/
+            │
+            ├── airflow/                     # Apache Airflow specific files
+            │   ├── dags/                    # DAG definitions
+            │   │   ├── git_collector_dag.py
+            │   │   ├── cicd_collector_dag.py
+            │   │   ├── jira_collector_dag.py
+            │   │   ├── logs_collector_dag.py
+            │   │   └── __init__.py
+            │   ├── plugins/                 # Custom Airflow operators/sensors/hooks
+            │   │   └── __init__.py
+            │   ├── logs/                     # Airflow logs (optional if using default)
+            │   └── airflow.cfg               # Airflow configuration
+            │
+            ├── collectors/                  # API collectors
+            │   ├── github_collector.py
+            │   ├── gitlab_collector.py
+            │   ├── cicd_collector.py        # GitHub Actions 
+            │   ├── jira_collector.py        # GitHub Projects
+            │   └── __init__.py
+            │
+            ├── devlake/                     # DevLake related logic
+            │   ├── normalize.py             # Transform raw API data into DevLake schema
+            │   ├── loader.py                # Load normalized data into DevLake DB
+            │   ├── plugins/                 # DevLake plugins if custom
+            │   └── __init__.py
+            │
+            ├── alerts/                      # Alerting logic
+            │   ├── teams_alert.py
+            │   ├── email_alert.py
+            │   └── __init__.py
+            │
+            ├── config/                      # Configuration files
+            │   ├── config.yaml              # API tokens, DB connections, alert channels
+            │   └── secrets.env              # Environment variables (gitignored)
+            │
+            ├── docker/                      # Docker files
+            │   ├── docker-compose.yml       # DevLake + any other containers
+            │   └── Dockerfile               # If custom services needed
+            │
+            ├── scripts/                     # Utility scripts
+            │   ├── run_pipeline.sh          # Script to start DAGs or run tasks manually
+            │   └── setup_env.sh             # Setup environment variables / virtualenv
+            │
+            ├── README.md                    # Project README
+            ├── requirements.txt             # Python dependencies
+            └── .gitignore                   # Ignore env, logs, secrets
+```
 
 ## Build Plan
 
 ### 1. Environment Setup
 
-    - **Tool:** Apache DevLake
-    - **Goal:** Deploy DevLake backend, database, and dashboards
-    - **Method:** Use Docker to run DevLake components
+- **Tool:** Apache DevLake
+- **Goal:** Deploy DevLake backend, database, and dashboards
+- **Method:** Use Docker to run DevLake components
 
 ### 2. Pipeline Orchestration
 
-    - **Tool:** Apache Airflow
-    - **Goal:** Schedule and orchestrate data collection
-    - **Method:** Install Airflow, create DAGs for tasks
+- **Tool:** Apache Airflow
+- **Goal:** Schedule and orchestrate data collection
+- **Method:** Install Airflow, create DAGs for tasks
 
 ### 3. Git Data Collection
-
-    - **Tool:** GitHub APIs
-    - **Goal:** Collect commits, PRs, and issues
-    - **Method:** Airflow tasks call APIs with authentication
-
-### 4. CI/CD Data Collection
-
-    - **Tool:** GitHub Actions
-    - **Goal:** Collect build and deployment status
-    - **Method:** Airflow tasks call CI/CD APIs
+            
+- **Tool:** GitHub APIs
+- **Goal:** Collect commits, PRs, and issues
+- **Method:** Airflow tasks call APIs with authentication
 
 ### 4. CI/CD Data Collection
 
-    - **Tool:** GitHub Actions
-    - **Goal:** Collect build and deployment status
-    - **Method:** Airflow tasks call CI/CD APIs
+- **Tool:** GitHub Actions
+- **Goal:** Collect build and deployment status
+- **Method:** Airflow tasks call CI/CD APIs
+
+### 4. CI/CD Data Collection
+
+- **Tool:** GitHub Actions
+- **Goal:** Collect build and deployment status
+- **Method:** Airflow tasks call CI/CD APIs
 
 ### 5. Jira / Incident Collection
 
-    - **Tool:** GitHub Projects
-    - **Goal:** Collect issues, incident data
-    - **Method:** Airflow tasks call APIs
+- **Tool:** GitHub Projects
+- **Goal:** Collect issues, incident data
+- **Method:** Airflow tasks call APIs
 
 ### 6. Cloud Log Collection
 
-    - **Tool:** Google Cloud Logging → BigQuery
-    - **Goal:** Efficiently store large log datasets
-    - **Method:** Export logs to BigQuery, Airflow reads them
+- **Tool:** Google Cloud Logging → BigQuery
+- **Goal:** Efficiently store large log datasets
+- **Method:** Export logs to BigQuery, Airflow reads them
 
 ### 7. Data Normalization
 
-    - **Tool:** Apache DevLake
-    - **Goal:** Normalize data to DevLake schema
-    - **Method:** Use DevLake plugins and converters
+- **Tool:** Apache DevLake
+- **Goal:** Normalize data to DevLake schema
+- **Method:** Use DevLake plugins and converters
 
 ### 8. Load into DevLake
 
-    - **Tool:** DevLake Database
-    - **Goal:** Store normalized data in the database
+- **Tool:** DevLake Database
+- **Goal:** Store normalized data in the database
 
 ### 9. Pipeline Metadata
 
-    - **Tool:** PlatformNex API
-    - **Goal:** Track pipeline execution status
+- **Tool:** PlatformNex API
+- **Goal:** Track pipeline execution status
 
 ### 10. Failure Handling & Alerts
 
-    - **Tool:** Slack, Teams, Email
-    - **Goal:** Python function to send notifications on task failure
+- **Tool:** Slack, Teams, Email
+- **Goal:** Python function to send notifications on task failure
 
 ## Technologies
 
