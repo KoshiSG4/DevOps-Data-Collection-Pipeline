@@ -99,6 +99,11 @@ A comprehensive DevOps data collection pipeline that aggregates, normalizes, and
             │   ├── logs/                     # Airflow logs (optional if using default)
             │   └── airflow.cfg               # Airflow configuration
             │
+            ├── bigquery/                     # Read logs from BigQuery
+            │   ├── bq_collector.py           # Python script to query/export logs from BigQuery
+            │   ├── bq_utils.py               # Utility functions: auth, pagination, schema mapping
+            │   └── __init__.py
+            │
             ├── collectors/                  # API collectors
             │   ├── github_collector.py
             │   ├── gitlab_collector.py
@@ -119,10 +124,9 @@ A comprehensive DevOps data collection pipeline that aggregates, normalizes, and
             │
             ├── config/                      # Configuration files
             │   ├── config.yaml              # API tokens, DB connections, alert channels
-            │   └── secrets.env              # Environment variables (gitignored)
             │
             ├── docker/                      # Docker files
-            │   ├── docker-compose.yml       # DevLake + any other containers
+            │   ├── docker-compose.yml       # DevLake, grafana, mysql + any other containers
             │   └── Dockerfile               # If custom services needed
             │
             ├── scripts/                     # Utility scripts
@@ -132,6 +136,7 @@ A comprehensive DevOps data collection pipeline that aggregates, normalizes, and
             ├── README.md                    # Project README
             ├── requirements.txt             # Python dependencies
             └── .gitignore                   # Ignore env, logs, secrets
+            └── .env                         # Environment variables (gitignored)
 ```
 
 ## Build Plan
