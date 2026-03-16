@@ -209,7 +209,7 @@ A comprehensive DevOps data collection pipeline that aggregates, normalizes, and
 - **Airflow** – Orchestrates tasks and pipelines
 - **Apache DevLake** – Normalizes and stores DevOps data
 - **GitHub/GitLab API** – Collects code repository data
-- **CI/CD Tools** – GitHub Actions, Jenkins, GitLab pipelines
+- **CI/CD Tools** – GitHub Actions
 - **Jira API** – Collects project and issue data
 - **Google Cloud Logging / BigQuery** – Cloud log collection
 - **Python** – Task scripting, API calls, and notifications
