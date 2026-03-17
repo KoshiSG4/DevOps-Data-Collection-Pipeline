@@ -1,2 +1,14 @@
-# dotenv environment variables file
+# Environment variables 
 .env
+
+#virtual environment 
+venv/
+env/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Airflow logs
+logs/
