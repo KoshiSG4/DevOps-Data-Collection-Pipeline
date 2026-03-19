@@ -11,7 +11,7 @@ headers = {
     "Accept" : "application/vnd.github+json"
 }
 
-def fetch_github_workflows(owner, repo):
+def fetch_github_workflow_runs(owner, repo):
     url = f"https://api.github.com/repos/{owner}/{repo}/actions/runs"
     response = requests.get(url, headers=headers)
     response.raise_for_status()
@@ -33,3 +33,32 @@ def fetch_github_workflows(owner, repo):
     ]
 
     return workflows
+
+def fetch_deployments(owner, repo):
+    deployment_url = f"https://api.github.com/repos/{owner}/{repo}/deployments"
+    deployment_resp = requests.get(deployment_url, headers=headers)
+    deployment_resp.raise_for_status()
+    deployment_data = deployment_resp.json()
+
+    deployments = []
+
+    for dep in deployment_data:
+        # Fetch deployment status (latest)
+        status_resp = requests.get(dep["statuses_url"], headers=headers)
+        status_resp.raise_for_status()
+        status_data = status_resp.json()
+        latest_status = status_data[0] if status_data else {}
+
+        deployments.append({
+            "type": "deployment",
+            "id": dep["id"],
+            "sha": dep["sha"],
+            "ref": dep["ref"],
+            "environment": dep["environment"],
+            "state": latest_status.get("state"),
+            "created_at": dep["created_at"],
+            "updated_at": latest_status.get("updated_at"),
+            "url": dep.get("url")
+        })
+
+    return deployments
