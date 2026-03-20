@@ -15,9 +15,10 @@ cicds = config["cicd_collector"]
 for cicd in cicds:
     owner = cicd["owner"]
     repo = cicd["repo"]
+    source = cicd["source"]
 
-    data = fetch_deployments(owner, repo)
+    data = fetch_deployments(owner, repo, source)
     print(f"CICD deployment Data ({repo}) : {data}")
 
-    data = fetch_github_workflow_runs(owner, repo)
+    data = fetch_github_workflow_runs(owner, repo, source)
     print(f"CICD workflow runs Data ({repo})  : {data}")

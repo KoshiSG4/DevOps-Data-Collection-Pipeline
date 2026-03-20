@@ -12,17 +12,18 @@ config_path = os.path.join(os.path.dirname(__file__), "..", "config", "config.ya
 with open(config_path, "r") as f:
     config = yaml.safe_load(f)
 
-cicds = config["github_repo_collector"]
+fields = config["github_repo_collector"]
 
-for cicd in cicds:
-    owner = cicd["owner"]
-    repo = cicd["repo"]
+for field in fields:
+    owner = field["owner"]
+    repo = field["repo"]
+    source = field["source"]
 
-    commits = fetch_commits("ivedha-tech","platformnex-frontend")
+    commits = fetch_commits(owner, repo, source)
     print(f"Commits ({repo}): {commits}\n")
 
-    prs = fetch_prs("ivedha-tech","platformnex-frontend")
+    prs = fetch_prs(owner, repo, source)
     print(f"\nPull Requests ({repo}): {prs}\n")
 
-    issues = fetch_issues("ivedha-tech","platformnex-frontend")
+    issues = fetch_issues(owner, repo, source)
     print(f"\nIssues ({repo}): {issues}\n")
