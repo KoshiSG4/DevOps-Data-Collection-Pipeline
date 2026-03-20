@@ -18,7 +18,8 @@ for table in tables:
     platforms = table["platforms"]
     start_time = table["start_time"].isoformat()
     end_time = table["end_time"].isoformat()
+    source = table["source"]
 
 
-    data = fetch_logs(start_time,end_time, dataset_reference, table_name, platforms)
+    data = fetch_logs(start_time,end_time, dataset_reference, table_name, platforms, source)
     print(f"BigQuery Data :\n \n {data}")

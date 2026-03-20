@@ -1,4 +1,5 @@
 import requests
+from datetime import datetime, timezone
 
 import os
 from dotenv import load_dotenv
@@ -11,7 +12,7 @@ headers = {
     "Accept" : "application/vnd.github+json"
 }
 
-def fetch_github_workflow_runs(owner, repo):
+def fetch_github_workflow_runs(owner, repo,source):
     url = f"https://api.github.com/repos/{owner}/{repo}/actions/runs"
 
     try: 
@@ -38,15 +39,23 @@ def fetch_github_workflow_runs(owner, repo):
             "conclusion": run["conclusion"],
             "created_at": run["created_at"],
             "updated_at": run["updated_at"],
-            "url": run["html_url"]
+            "metadata": {
+                "conclusion": run["conclusion"],
+                "url": run["html_url"]
+            }
         }
 
          for run in data.get("workflow_runs", [])
     ]
 
-    return workflows
+    return {
+        "source": f"{source}",
+        "entity": "workflow_runs",
+        "collected_at": datetime.now(timezone.utc).isoformat(),
+        "data": workflows
+    }
 
-def fetch_deployments(owner, repo):
+def fetch_deployments(owner, repo, source):
     deployment_url = f"https://api.github.com/repos/{owner}/{repo}/deployments"
     
     try: 
@@ -76,13 +85,20 @@ def fetch_deployments(owner, repo):
         deployments.append({
             "type": "deployment",
             "id": dep["id"],
-            "sha": dep["sha"],
-            "ref": dep["ref"],
             "environment": dep["environment"],
-            "state": latest_status.get("state"),
+            "status": latest_status.get("state"),
             "created_at": dep["created_at"],
             "updated_at": latest_status.get("updated_at"),
-            "url": dep.get("url")
+            "url": dep.get("url"),
+             "metadata": {
+                "sha": dep["sha"],
+                "ref": dep["ref"]
+            }
         })
 
-    return deployments
+    return {
+        "source": f"{source}",
+        "entity": "deployments",
+        "collected_at": datetime.now(timezone.utc).isoformat(),
+        "data": deployments
+    }

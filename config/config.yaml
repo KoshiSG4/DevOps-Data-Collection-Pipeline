@@ -1,27 +1,34 @@
 # API tokens, DB connections, alert channels
 github_repo_collector:
-    - owner: ivehda-tech
+    - owner: ivedha-tech
       repo: platformnex-frontend
+      source: github
 
-    - owner: ivehda-tech
+    - owner: ivedha-tech
       repo: platformnex-backend
+      source: github
 
-    - owner: ivehda-tech
+    - owner: ivedha-tech
       repo: platformnex-salesforce-frontend
+      source: github
 
 cicd_collector:
-    - owner: ivehda-tech
+    - owner: ivedha-tech
       repo: platformnex-frontend
+      source: github
 
-    - owner: ivehda-tech
+    - owner: ivedha-tech
       repo: platformnex-backend
+      source: github
 
     - owner: openai
       repo: openai-agents-js
+      source: github
 
 github_projects_collector:
     - org: ivedha-tech
       project_number: 12
+      source: github
 
 bq_collector:
     - table_name: 'gcp_billing_export_resource_v1_011C19_C13966_9DC5E1'
@@ -32,6 +39,7 @@ bq_collector:
           - Kubernetes Engine
       start_time: 2026-03-17T00:00:00
       end_time: 2026-03-18T00:00:00
+      source: prj-datasource-billing
 
     - table_name: 'gcp_billing_export_resource_v1_01E9B5_60A8A4_E1FE52'
       dataset_reference: 'prj-datasource-billing.ds_billing'
@@ -41,6 +49,7 @@ bq_collector:
           - Kubernetes Engine
       start_time: 2026-03-17T00:00:00
       end_time: 2026-03-18T00:00:00
+      source: prj-datasource-billing
 
     - table_name: 'gcp_billing_export_v1_011C19_C13966_9DC5E1'
       dataset_reference: 'prj-datasource-billing.ds_billing'
@@ -50,6 +59,7 @@ bq_collector:
           - Kubernetes Engine
       start_time: 2026-03-17T00:00:00
       end_time: 2026-03-18T00:00:00
+      source: prj-datasource-billing
 
     - table_name: 'gcp_billing_export_v1_01E9B5_60A8A4_E1FE52'
       dataset_reference: 'prj-datasource-billing.ds_billing'
@@ -59,3 +69,4 @@ bq_collector:
           - Kubernetes Engine
       start_time: 2026-03-17T00:00:00
       end_time: 2026-03-18T00:00:00
+      source: prj-datasource-billing

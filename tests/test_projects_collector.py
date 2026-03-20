@@ -1,11 +1,21 @@
 import sys
+import yaml
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from collectors.projects_collector import fetch_project_items
 
-org = "ivedha-tech"
-project_number = "12"
+config_path = os.path.join(os.path.dirname(__file__), "..", "config", "config.yaml")
 
-data = fetch_project_items(org, project_number)
+with open(config_path, "r") as f:
+    config = yaml.safe_load(f)
+
+projects = config["github_projects_collector"]
+
+for project in projects:
+    org = project["org"]
+    project_number = project["project_number"]
+    source = project["source"]
+
+data = fetch_project_items(org, project_number, source)
 print(f"Project Data :\n \n {data}")
