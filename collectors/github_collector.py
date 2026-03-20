@@ -34,7 +34,7 @@ def fetch_commits(owner, repo):
 
 
 def fetch_prs(owner, repo):
-    url = f"https://api.github.com/repos/{owner}/{repo}/pulls"
+    url = f"https://api.github.com/repos/{owner}/{repo}/pulls?state=all"
 
     headers = {
         "Authorization" : f"Bearer {GITHUB_TOKEN}"
@@ -51,21 +51,19 @@ def fetch_prs(owner, repo):
 
     for item in data:
         pull_requests.append({
-            pull_requests.append({
             "id": item["id"],
             "title": item["title"],
             "author": item["user"]["login"],  
             "state": item["state"],           
             "created_at": item["created_at"],
             "updated_at": item["updated_at"]
-            })
         })
 
     return pull_requests
 
 
 def fetch_issues(owner, repo):
-    url = f"https://api.github.com/repos/{owner}/{repo}/issues"
+    url = f"https://api.github.com/repos/{owner}/{repo}/issues?state=all"
 
     headers = {
         "Authorization" : f"Bearer {GITHUB_TOKEN}"
@@ -81,10 +79,6 @@ def fetch_issues(owner, repo):
     issues = []
 
     for item in data:
-        # Skip pull requests (GitHub returns PRs in the issues endpoint too)
-        if "pull_request" in item:
-            continue
-
         issues.append({
             "id": item["id"],
             "title": item["title"],
