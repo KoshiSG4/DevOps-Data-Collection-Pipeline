@@ -29,9 +29,7 @@ services:
             MYSQL_PASSWORD: merico
             TZ: UTC
             ENCRYPTION_SECRET: OBPGFDQLYEWHSZUARKXMVIJCTN
-        command: --character-set-server=utf8mb4
-            --collation-server=utf8mb4_bin
-            --skip-log-bin
+        command: --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --skip-log-bin
 
     grafana:
         image: devlake.docker.scarf.sh/apache/devlake-dashboard:v1.0.3-beta10
@@ -53,21 +51,28 @@ services:
 
     devlake:
         image: devlake.docker.scarf.sh/apache/devlake:v1.0.3-beta10
+        platform: linux/amd64
+        user: "0:0"
         ports:
             - 8080:8080
         restart: always
         volumes:
             - devlake-log:/app/logs
+            - ./empty-plugins:/empty-plugins
         env_file:
             - ./.env
         environment:
             LOGGING_DIR: /app/logs
             TZ: UTC
+            REMOTE_PLUGIN_DIR: /empty-plugins
+            DISABLED_REMOTE_PLUGINS: azuredevops
         depends_on:
             - mysql
 
     config-ui:
         image: devlake.docker.scarf.sh/apache/devlake-config-ui:v1.0.3-beta10
+        platform: linux/amd64
+        user: "0:0"
         ports:
             - 4000:4000
         env_file:
