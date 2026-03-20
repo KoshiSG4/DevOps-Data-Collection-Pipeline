@@ -13,8 +13,20 @@ headers = {
 
 def fetch_github_workflow_runs(owner, repo):
     url = f"https://api.github.com/repos/{owner}/{repo}/actions/runs"
-    response = requests.get(url, headers=headers)
-    response.raise_for_status()
+
+    try: 
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 404:
+            print(f"No workflow runs found for {owner}/{repo}")
+            return[]
+        
+        response.raise_for_status()
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching workflow runs for {owner}/{repo}: {e}")
+        return []
+    
     data = response.json()
 
     #extract relevant info
@@ -36,8 +48,20 @@ def fetch_github_workflow_runs(owner, repo):
 
 def fetch_deployments(owner, repo):
     deployment_url = f"https://api.github.com/repos/{owner}/{repo}/deployments"
-    deployment_resp = requests.get(deployment_url, headers=headers)
-    deployment_resp.raise_for_status()
+    
+    try: 
+        deployment_resp = requests.get(deployment_url, headers=headers)
+
+        if deployment_resp.status_code == 404:
+            print(f"No deployements found for {owner}/{repo}")
+            return[]
+        
+        deployment_resp.raise_for_status()
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching deployments for {owner}/{repo}: {e}")
+        return []
+    
     deployment_data = deployment_resp.json()
 
     deployments = []
