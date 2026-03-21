@@ -70,3 +70,19 @@ bq_collector:
       start_time: 2026-03-17T00:00:00
       end_time: 2026-03-18T00:00:00
       source: prj-datasource-billing
+
+ENTITY_CONFIG:
+    commits:
+        table: 'table_github_commits'
+    pull_requests:
+        table: 'table_github_pull_requests'
+    issues:
+        table: 'table_github_issues'
+    project_items:
+        table: 'table_github_projects_data'
+    workflow_runs:
+        table: 'table_github_workflow_runs'
+    deployments:
+        table: 'table_github_deployments'
+    gcp_logs:
+        table: 'table_gcp_bq_data'

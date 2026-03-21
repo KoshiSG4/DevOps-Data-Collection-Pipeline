@@ -4,6 +4,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from collectors.projects_collector import fetch_project_items
+from tests.test_load_data_to_devlake import process_entity
 
 config_path = os.path.join(os.path.dirname(__file__), "..", "config", "config.yaml")
 
@@ -19,3 +20,5 @@ for project in projects:
 
 data = fetch_project_items(org, project_number, source)
 print(f"Project Data :\n \n {data}")
+
+process_entity(data)

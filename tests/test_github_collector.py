@@ -6,6 +6,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from collectors.github_collector import fetch_commits
 from collectors.github_collector import fetch_prs
 from collectors.github_collector import fetch_issues
+from tests.test_load_data_to_devlake import process_entity
 
 config_path = os.path.join(os.path.dirname(__file__), "..", "config", "config.yaml")
 
@@ -20,10 +21,14 @@ for field in fields:
     source = field["source"]
 
     commits = fetch_commits(owner, repo, source)
-    print(f"Commits ({repo}): {commits}\n")
+    # print(f"Commits ({repo}): {commits}\n")
 
     prs = fetch_prs(owner, repo, source)
-    print(f"\nPull Requests ({repo}): {prs}\n")
+    # print(f"\nPull Requests ({repo}): {prs}\n")
 
     issues = fetch_issues(owner, repo, source)
-    print(f"\nIssues ({repo}): {issues}\n")
+    # print(f"\nIssues ({repo}): {issues}\n")
+
+    process_entity(commits)
+    process_entity(prs)
+    process_entity(issues)
