@@ -59,7 +59,7 @@ services:
         volumes:
             - devlake-log:/app/logs
         env_file:
-            - ./.env
+            - ../.env
         environment:
             LOGGING_DIR: /app/logs
             TZ: UTC
@@ -71,7 +71,7 @@ services:
         ports:
             - 4000:4000
         env_file:
-            - ./.env
+            - ../.env
         environment:
             DEVLAKE_ENDPOINT: devlake:8080
             GRAFANA_ENDPOINT: grafana:3000

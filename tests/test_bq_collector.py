@@ -4,6 +4,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from bigquery.bq_collector import fetch_logs
+from tests.test_load_data_to_devlake import process_entity
 
 config_path = os.path.join(os.path.dirname(__file__), "..", "config", "config.yaml")
 
@@ -23,3 +24,5 @@ for table in tables:
 
     data = fetch_logs(start_time,end_time, dataset_reference, table_name, platforms, source)
     print(f"BigQuery Data :\n \n {data}")
+
+    process_entity(data)

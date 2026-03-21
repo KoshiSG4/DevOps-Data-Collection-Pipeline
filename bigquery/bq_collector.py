@@ -49,7 +49,7 @@ def fetch_logs(start_time:str, end_time:str, dataset_reference, table_name, plat
 
     return {
         "source": f"{source}",
-        "entity": "usage_logs",
+        "entity": "gcp_logs",
         "collected_at": datetime.now(timezone.utc).isoformat(),
         "data": all_data
     }
